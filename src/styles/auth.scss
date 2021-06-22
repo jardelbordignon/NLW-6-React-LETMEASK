@@ -4,6 +4,8 @@
   height: 100vh;
 
   aside {
+    animation: appearWithFade 1.5s;
+
     flex: 7;
     background: #835afd;
     color: #fff;
@@ -42,6 +44,8 @@
   }
 
   .main-content {
+    animation: appearFromRight 1.5s;
+    
     display: flex;
     flex-direction: column;
     width: 100%;
