@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom'
 
-import { Button } from './components/Button'
+import { Button } from '../components/Button'
 import { useAuth } from '../hooks/useAuth'
 
 import illustrationImg from '../assets/images/illustration.svg'
