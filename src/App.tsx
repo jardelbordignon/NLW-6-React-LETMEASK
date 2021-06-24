@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 
 import { Home } from './pages/Home'
 import { NewRoom } from './pages/NewRoom'
@@ -8,6 +9,8 @@ import { AuthContextProvider } from './contexts/AuthContext'
 
 function App() {  
   return (
+    <>
+    <Toaster />
     <BrowserRouter>
       <AuthContextProvider>
         <Switch>
@@ -17,6 +20,7 @@ function App() {
         </Switch>
       </AuthContextProvider>
     </BrowserRouter>
+    </>
   )
 }
 
