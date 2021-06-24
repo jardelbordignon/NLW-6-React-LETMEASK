@@ -1,0 +1,66 @@
+.question {
+  background: #fefefe;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  padding: 24px;
+
+  & + .question {
+    margin-top: 8px;
+  }
+
+  p {
+    color: #29292e;
+  }
+
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+
+      // https://dev.to/afif/border-with-gradient-and-radius-387f
+      div { // avatar container
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position:relative;
+        
+        &::before {
+          content:"";
+          position:absolute;
+          top:0;
+          left:0;
+          right:0;
+          bottom:0;
+          border-radius: 50%; 
+          padding: 3px; 
+          background: linear-gradient(150deg, #835afd, #e559f9); 
+          -webkit-mask: 
+            linear-gradient(#fff 0 0) content-box, 
+            linear-gradient(#fff 0 0);
+          -webkit-mask-composite: destination-out; 
+          mask-composite: exclude;
+        }
+
+        img {
+          width: 90%;
+          height: 90%;
+          border-radius: 50%;
+        }
+      }
+
+      > span {
+        margin-left: 8px;
+        color: #737380;
+        font-size: 14px;
+      }
+    }
+  }
+}

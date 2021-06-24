@@ -105,7 +105,6 @@
 
           > span {
             margin-left: 8px;
-            color: linear-gradient(90deg, #e559f9, #835afd);
             font-weight: 500;
             font-size: 14px;
           }
@@ -125,6 +124,10 @@
           }
         }
       }
+    }
+
+    .question-list {
+      margin-top: 32px;
     }
   }
 }
