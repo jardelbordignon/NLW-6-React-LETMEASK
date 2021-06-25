@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 
 import { Button } from '../components/Button'
 import { useAuth } from '../hooks/useAuth'
@@ -32,7 +33,14 @@ export function Home() {
     const roomRef = await database.ref(`rooms/${roomCode}`).get()
 
     if (!roomRef.exists()) {
-      alert('Room does not exists.')
+      toast.error('Room does not exists.', { duration: 3000 })
+      setRoomCode('')
+      return
+    }
+    
+    if (roomRef.val().closedAt) {
+      toast.error('Room already closed.', { duration: 3000 })
+      setRoomCode('')
       return
     }
 
