@@ -13,6 +13,18 @@ body, input, button, textarea {
   font: 400 16px 'Roboto', sans-serif;
 }
 
+a {
+  font-family: 'Poppins', sans-serif;
+  text-decoration: none;
+  color: #835afd;
+  font-weight: 500;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
 @keyframes appearWithFade {
   from { opacity: 0; }
   to { opacity: 1; }
