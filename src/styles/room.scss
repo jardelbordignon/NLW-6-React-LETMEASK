@@ -55,6 +55,38 @@
       }
     }
 
+    .empty-questions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+      
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        max-width: 290px;
+
+        h1 {
+          font-family: 'Poppins', sans-serif;
+          font-weight: 700;
+          font-size: 18px;
+          color: #29292e;
+          margin: 16px 0 8px;
+        }
+
+        span {
+          font-family: 'Roboto', sans-serif;
+          font-size: 14px;
+          line-height: 21px;
+          color: #737380;
+          text-align: center;
+        }
+
+      }
+    }
+
     form {
       textarea {
         width: 100%;

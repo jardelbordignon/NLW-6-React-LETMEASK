@@ -7,14 +7,15 @@ import { database } from '../services/firebase'
 import { Button } from '../components/Button'
 import { RoomCode } from '../components/RoomCode'
 import { Question } from '../components/Question'
+import { Modal } from '../components/Modal'
 
 import logoImg from '../assets/images/logo.svg'
 import deleteImg from '../assets/images/delete.svg'
 import checkImg from '../assets/images/check.svg'
 import answerImg from '../assets/images/answer.svg'
+import emptyQuestionsImg from '../assets/images/empty-questions.svg'
 
 import '../styles/room.scss'
-import { Modal } from '../components/Modal'
 
 type RoomParams = {
   id: string
@@ -25,7 +26,7 @@ export function AdminRoom() {
   const history = useHistory()
 
   const roomId = params.id
-  const { questions, title } = useRoom(roomId)
+  const { questions, title, isLoading } = useRoom(roomId)
 
   const [isDeleteQuestionModalOpen, setDeleteQuestionModalOpen] = useState('')
   const [isCloseRoomModalOpen, setCloseRoomModalOpen] = useState(false)
@@ -75,54 +76,76 @@ export function AdminRoom() {
 
       <main>
         <div className='room-title'>
-          <h1>{title || 'Carregando...'}</h1>
+          <h1>{title}</h1>
           { !!questions.length && 
             <span>{questions.length} pergunta{questions.length > 1 && 's'}</span>
           }
         </div>
 
-        <div className='question-list'>
-          { questions.map(question => (
-              <Question
-                key={question.id}
-                content={question.content}
-                author={question.author}
-                isAnswered={question.isAnswered}
-                isHighlighted={question.isHighlighted}
-              >
-                <button
-                  type='button'
-                  onClick={() => handleCheckQuestionAsAnswered(question.id, !question.isAnswered)}
+        { isLoading ? (
+          <div className='empty-questions'>
+            <div>
+              <img src={emptyQuestionsImg} alt='Carregando' />
+              <h1>Carregando informações...</h1>
+            </div>
+          </div>
+        ) : (
+
+          !!questions.length ? (
+            <div className='question-list'>
+              { questions.map(question => (
+                <Question
+                  key={question.id}
+                  content={question.content}
+                  author={question.author}
+                  isAnswered={question.isAnswered}
+                  isHighlighted={question.isHighlighted}
                 >
-                  <img src={checkImg} alt='Marcar pergunta como respondida' />
-                </button>
-                
-                { !question.isAnswered && (
                   <button
                     type='button'
-                    onClick={() => handleHighlightQuestion(question.id, !question.isHighlighted)}
+                    onClick={() => handleCheckQuestionAsAnswered(question.id, !question.isAnswered)}
                   >
-                    <img src={answerImg} alt='Dar destaque à pergunta' />
+                    <img src={checkImg} alt='Marcar pergunta como respondida' />
                   </button>
-                )}
-
-                <button
-                  type='button'
-                  onClick={() => setDeleteQuestionModalOpen(question.id)}
-                >
-                  <img src={deleteImg} alt='Remover pergunta' />
-                </button>
-
-                <Modal
-                  state={isDeleteQuestionModalOpen === question.id}
-                  setState={() => setDeleteQuestionModalOpen('')}
-                  callback={() => handleDeleteQuestion(question.id)}
-                  title="Excluir pergunta"
-                  content="Tem certeza que você deseja excluir esta pergunta?"
-                />
-              </Question>
-          ))}
-        </div>
+                  
+                  { !question.isAnswered && (
+                    <button
+                      type='button'
+                      onClick={() => handleHighlightQuestion(question.id, !question.isHighlighted)}
+                    >
+                      <img src={answerImg} alt='Dar destaque à pergunta' />
+                    </button>
+                  )}
+  
+                  <button
+                    type='button'
+                    onClick={() => setDeleteQuestionModalOpen(question.id)}
+                  >
+                    <img src={deleteImg} alt='Remover pergunta' />
+                  </button>
+  
+                  <Modal
+                    state={isDeleteQuestionModalOpen === question.id}
+                    setState={() => setDeleteQuestionModalOpen('')}
+                    callback={() => handleDeleteQuestion(question.id)}
+                    title="Excluir pergunta"
+                    content="Tem certeza que você deseja excluir esta pergunta?"
+                  />
+                </Question>
+              ))}
+            </div>
+  
+          ) : (
+            <div className='empty-questions'>
+              <div>
+                <img src={emptyQuestionsImg} alt='Imagem representando que não há perguntas' />
+                <h1>Nenhuma pergunta por aqui...</h1>
+                <span>Envie o código desta sala para seus amigos e comece a responder perguntas!</span>
+              </div>
+            </div>
+          )
+        )}
+        
       </main>
     </div>
   )
