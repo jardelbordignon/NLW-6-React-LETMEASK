@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { useRoom } from '../hooks/useRoom'
@@ -13,6 +14,7 @@ import checkImg from '../assets/images/check.svg'
 import answerImg from '../assets/images/answer.svg'
 
 import '../styles/room.scss'
+import { Modal } from '../components/Modal'
 
 type RoomParams = {
   id: string
@@ -25,6 +27,9 @@ export function AdminRoom() {
   const roomId = params.id
   const { questions, title } = useRoom(roomId)
 
+  const [isDeleteQuestionModalOpen, setDeleteQuestionModalOpen] = useState('')
+  const [isCloseRoomModalOpen, setCloseRoomModalOpen] = useState(false)
+
   async function handleCloseRoom() {
     await database.ref(`rooms/${roomId}`).update({ closedAt: new Date() })
 
@@ -32,9 +37,9 @@ export function AdminRoom() {
   }
   
   async function handleDeleteQuestion(questionId: string) {
-    if (window.confirm('Tem certeza que você deseja excluir essa pergunta?')) {
+    //if (window.confirm('Tem certeza que você deseja excluir essa pergunta?')) {
       await database.ref(`rooms/${roomId}/questions/${questionId}`).remove()
-    }
+    //}
   }
 
   async function handleCheckQuestionAsAnswered(questionId: string, isAnswered: boolean) {
@@ -56,7 +61,14 @@ export function AdminRoom() {
           <img src={logoImg} alt='Letmeask' />
           <div>
             <RoomCode code={roomId} />
-            <Button isOutlined onClick={handleCloseRoom}>Encerrar a sala</Button>
+            <Button isOutlined onClick={() => setCloseRoomModalOpen(true)}>Encerrar a sala</Button>
+            <Modal
+              state={isCloseRoomModalOpen}
+              setState={setCloseRoomModalOpen}
+              callback={handleCloseRoom}
+              title="Encerrar Sala"
+              content="Tem certeza que você deseja encerrar esta sala?"
+            />
           </div>
         </div>
       </header>
@@ -96,14 +108,21 @@ export function AdminRoom() {
 
                 <button
                   type='button'
-                  onClick={() => handleDeleteQuestion(question.id)}
+                  onClick={() => setDeleteQuestionModalOpen(question.id)}
                 >
                   <img src={deleteImg} alt='Remover pergunta' />
                 </button>
+
+                <Modal
+                  state={isDeleteQuestionModalOpen === question.id}
+                  setState={() => setDeleteQuestionModalOpen('')}
+                  callback={() => handleDeleteQuestion(question.id)}
+                  title="Excluir pergunta"
+                  content="Tem certeza que você deseja excluir esta pergunta?"
+                />
               </Question>
           ))}
         </div>
-
       </main>
     </div>
   )
