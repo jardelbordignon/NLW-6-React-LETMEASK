@@ -42,7 +42,7 @@ export function AdminRoom() {
         return
       }
     }
-  }, [isLoading, history, room.author.id, roomId, user?.id])
+  }, [isLoading, history, room.author?.id, roomId, user?.id])
 
   async function handleCloseRoom() {
     await database.ref(`rooms/${roomId}`).update({ closedAt: new Date() })

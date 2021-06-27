@@ -97,9 +97,11 @@ export function Room() {
               
               <h1>{room.title}</h1>
 
-              { !!questions.length && (
+              { !!questions.length ? (
                 <span>{questions.length} pergunta{questions.length > 1 && 's'}</span>
-              )}
+              ) :
+                <div/>
+              }
             </>
           )}
         </div>          
