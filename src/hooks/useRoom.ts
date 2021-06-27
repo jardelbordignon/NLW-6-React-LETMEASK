@@ -1,7 +1,20 @@
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
+import { useHistory } from 'react-router-dom'
 
 import { database } from '../services/firebase'
 import { useAuth } from './useAuth'
+
+type User = {
+  id: string
+  name: string
+  avatar: string
+}
+
+type RoomType = {
+  title: string
+  author: User
+}
 
 type QuestionType = {
   id: string
@@ -35,10 +48,11 @@ type FirebaseQuestions = Record<string, {
 }>
 
 export function useRoom(roomId: string) {
+  const [room, setRoom] = useState({} as RoomType)
   const [questions, setQuestions] = useState<QuestionType[]>([])
-  const [title, setTitle] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const { user } = useAuth()
+  const history = useHistory()
 
   useEffect(() => {
     const roomRef = database.ref(`rooms/${roomId}`)
@@ -46,6 +60,13 @@ export function useRoom(roomId: string) {
     // roomRef.once('value', room => {
     roomRef.on('value', room => {
       const roomData = room.val()
+
+      if (!roomData) {
+        toast.error('Esta sala não existe ou está fechada')
+        history.push('/')
+        return
+      }
+
       const roomQuestions = roomData.questions as FirebaseQuestions ?? {}
       const parsedQuestions = Object.entries(roomQuestions).map(([key, value]) => ({
         id: key,
@@ -59,7 +80,10 @@ export function useRoom(roomId: string) {
         loveId: Object.entries(value.loves ?? {}).find(([k, v]) => v.authorId === user?.id)?.[0],
       }))
 
-      setTitle(roomData.title)
+      setRoom({
+        title: roomData.title,
+        author: roomData.author
+      })
       setQuestions(parsedQuestions)
       setIsLoading(false)
     })
@@ -67,7 +91,7 @@ export function useRoom(roomId: string) {
     return () => {
       roomRef.off('value')
     }
-  }, [roomId, user?.id])
+  }, [roomId, user?.id, history])
 
-  return { questions, title, isLoading }
+  return { room, questions, isLoading }
 }

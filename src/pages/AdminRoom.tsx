@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
+import { useAuth } from '../hooks/useAuth'
 import { useRoom } from '../hooks/useRoom'
 import { database } from '../services/firebase'
 
@@ -26,10 +28,21 @@ export function AdminRoom() {
   const history = useHistory()
 
   const roomId = params.id
-  const { questions, title, isLoading } = useRoom(roomId)
+  const { room, questions, isLoading } = useRoom(roomId)
+  const { user } = useAuth()
 
   const [isDeleteQuestionModalOpen, setDeleteQuestionModalOpen] = useState('')
   const [isCloseRoomModalOpen, setCloseRoomModalOpen] = useState(false)
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (user?.id !== room.author.id ) {
+        toast.error('Ambiente exclusivo do administrador')
+        history.push(`/rooms/${roomId}`)
+        return
+      }
+    }
+  }, [isLoading])
 
   async function handleCloseRoom() {
     await database.ref(`rooms/${roomId}`).update({ closedAt: new Date() })
@@ -75,8 +88,8 @@ export function AdminRoom() {
       </header>
 
       <main>
-        <div className='room-title'>
-          <h1>{title}</h1>
+        <div className='room-info'>
+          <h1>{room?.title || 'Aguarde...'}</h1>
           { !!questions.length && 
             <span>{questions.length} pergunta{questions.length > 1 && 's'}</span>
           }

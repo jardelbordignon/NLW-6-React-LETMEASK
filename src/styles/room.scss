@@ -33,19 +33,37 @@
     max-width: 800px;
     margin: 0 auto;
 
-    .room-title {
+    .room-info {
       margin: 32px 0 24px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      position: relative;
+
+      .avatar-container {
+        width: 70px;
+        height: 70px;
+      }
+
+      span:first-child {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        line-height: 21px;
+        color: #737380;
+        text-align: center;
+        position: absolute;
+        bottom: -5px;
+        left: 70px;
+      }
 
       h1 {
         font-family: 'Poppins', sans-serif;
         font-size: 24px;
         color: #29292e;
+        border-bottom: 1px solid #835afd;
       }
 
-      span {
-        margin-left: 16px;
+      span:last-child {
         background: #e559f9;
         border-radius: 9999px;
         padding: 8px 16px;
@@ -110,38 +128,9 @@
           display: flex;
           align-items: center;
 
-          // https://dev.to/afif/border-with-gradient-and-radius-387f
-          div { // avatar container
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position:relative;
-            
-            &::before {
-              content:"";
-              position:absolute;
-              top:0;
-              left:0;
-              right:0;
-              bottom:0;
-              border-radius: 50%; 
-              padding: 3px; 
-              background: linear-gradient(150deg, #835afd, #e559f9); 
-              -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-              -webkit-mask-composite: destination-out; 
-              mask-composite: exclude;
-            }
-
-            img {
-              width: 90%;
-              height: 90%;
-              border-radius: 50%;
-            }
+          .avatar-container {
+            width: 45px;
+            height: 45px;
           }
 
           > span {
