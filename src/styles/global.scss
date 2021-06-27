@@ -60,8 +60,8 @@ div.avatar-container {
     padding: 3px; 
     background: linear-gradient(150deg, #835afd, #e559f9); 
     -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
+      linear-gradient(#835afd 0 0) content-box, 
+      linear-gradient(#e559f9 0 0);
     -webkit-mask-composite: destination-out; 
     mask-composite: exclude;
   }
