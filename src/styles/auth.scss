@@ -4,15 +4,22 @@
   height: 100vh;
 
   aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
+
+    min-width: 320px;
+    
     animation: appearWithFade 1.5s;
 
     flex: 7;
     background: #835afd;
     color: #fff;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 
     padding: 120px 80px;
 
@@ -83,6 +90,11 @@
 
     p {
       font-size: 14px;
+
+      @media screen and (max-width: 900px) {
+        font-size: 12px;  
+      }
+
       color: #737388;
       margin-top: 16px;
 

@@ -12,6 +12,11 @@
       justify-content: space-between;
       align-items: center;
 
+      @media screen and (max-width: 700px) {
+        flex-direction: column;
+        gap: 15px;
+      }
+
       > img {
         max-height: 45px;
       }
@@ -23,6 +28,10 @@
         button {
           height: 40px;
         }
+
+        @media screen and (max-width: 550px) {
+          flex-direction: column;
+        }
       }
     }
   }
@@ -32,6 +41,7 @@
 
     max-width: 800px;
     margin: 0 auto;
+    padding: 0 20px;
 
     .room-info {
       margin: 32px 0 24px;
@@ -39,37 +49,47 @@
       align-items: center;
       justify-content: space-between;
       position: relative;
+      gap: 20px;
 
-      .avatar-container {
-        width: 70px;
-        height: 70px;
-      }
+      .author-info {
+        @media screen and (max-width: 700px) {
+          display: none;
+        }
+        .avatar-container {
+          width: 70px;
+          height: 70px;
+        }
 
-      span:first-child {
-        font-family: 'Roboto', sans-serif;
-        font-size: 14px;
-        line-height: 21px;
-        color: #737380;
-        text-align: center;
-        position: absolute;
-        bottom: -5px;
-        left: 70px;
+        span {
+          font-family: 'Roboto', sans-serif;
+          font-size: 14px;
+          line-height: 21px;
+          color: #737380;
+          text-align: center;
+          position: absolute;
+          bottom: -5px;
+          left: 70px;
+        }
       }
 
       h1 {
         font-family: 'Poppins', sans-serif;
         font-size: 24px;
+        @media screen and (max-width: 500px) {
+          font-size: 20px;
+        }
         color: #29292e;
         border-bottom: 1px solid #835afd;
       }
 
-      span:last-child {
+      > span {
         background: #e559f9;
         border-radius: 9999px;
         padding: 8px 16px;
         color: #fff;
         font-weight: 500;
         font-size: 14px;
+        text-align: center;
       }
     }
 

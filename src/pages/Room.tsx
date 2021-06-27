@@ -89,10 +89,12 @@ export function Room() {
             <h1>Aguarde...</h1>
           ) : (
             <>
-              <span>{room.author.name}</span>
+              <div className='author-info'>
+                <span>{room.author.name}</span>
 
-              <div className='avatar-container'>
-                <img src={room.author.avatar} alt='Imagem do author da sala' />
+                <div className='avatar-container'>
+                  <img src={room.author.avatar} alt='Imagem do author da sala' />
+                </div>
               </div>
               
               <h1>{room.title}</h1>
